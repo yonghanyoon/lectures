@@ -1,0 +1,19 @@
+spring:
+  application.name: lectures
+  datasource:
+    url: jdbc:h2:~/h2test2
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+logging.level: #띄어쓰기 없음
+  org.hibernate.SQL: debug #띄어쓰기 2칸
+  org.hibernate.orm.jdbc.bind: trace
+  # org.hibernate.type: trace #띄어쓰기 2칸
