@@ -1,19 +1,25 @@
 spring:
-  application.name: lectures
+  # H2 Database 설정
   datasource:
-    url: jdbc:h2:~/h2test2
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:lecturesdb
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+
+  # H2 Console 설정
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
-        #show_sql: true #띄어쓰기 8칸
-        format_sql: true #띄어쓰기 8칸
-logging.level: #띄어쓰기 없음
-  org.hibernate.SQL: debug #띄어쓰기 2칸
-  org.hibernate.orm.jdbc.bind: trace
-  # org.hibernate.type: trace #띄어쓰기 2칸
+        format_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      data-locations: classpath:static/lecturesdb.sql
