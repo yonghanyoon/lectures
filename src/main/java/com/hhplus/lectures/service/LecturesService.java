@@ -36,7 +36,7 @@ public class LecturesService {
             throw new Exception("이미 신청한 특강입니다.");
         }
 
-        LecturesManagement lecturesManagement = lecturesManagementRepository.findByManagementId(reqDto.getManagementId()).get();
+        LecturesManagement lecturesManagement = lecturesManagementRepository.findByManagementIdWithPessimisticLock(reqDto.getManagementId());
         lecturesManagement.increaseEnrollCount();
         LecturesManagementDto lecturesManagementDto = lecturesManagement.toDto();
 
