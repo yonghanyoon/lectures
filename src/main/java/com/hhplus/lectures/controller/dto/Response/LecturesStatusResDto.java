@@ -1,7 +1,7 @@
 package com.hhplus.lectures.controller.dto.Response;
 
 import com.hhplus.lectures.common.type.RegistStatus;
-import com.hhplus.lectures.controller.dto.LecturesHistoryDto;
+import com.hhplus.lectures.domain.LecturesHistory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class LecturesStatusResDto {
     private RegistStatus status;
     private LocalDateTime createdDt;
 
-    public List<LecturesStatusResDto> of(List<LecturesHistoryDto> dto) {
+    public List<LecturesStatusResDto> of(List<LecturesHistory> dto) {
         List<LecturesStatusResDto> lecturesStatusResDtoList = new ArrayList<>();
-        for (LecturesHistoryDto lecturesHistoryDto : dto) {
+        for (LecturesHistory lecturesHistoryDto : dto) {
             lecturesStatusResDtoList.add(LecturesStatusResDto.builder()
                                              .managementId(lecturesHistoryDto.getManagementId())
                                              .status(lecturesHistoryDto.getStatus())

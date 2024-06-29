@@ -8,11 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplus.lectures.common.type.RegistStatus;
-import com.hhplus.lectures.controller.dto.LecturesDto;
-import com.hhplus.lectures.controller.dto.LecturesHistoryDto;
-import com.hhplus.lectures.controller.dto.LecturesManagementDto;
+import com.hhplus.lectures.domain.Lectures;
+import com.hhplus.lectures.domain.LecturesHistory;
+import com.hhplus.lectures.domain.LecturesManagement;
 import com.hhplus.lectures.controller.dto.Request.LecturesReqDto;
-import com.hhplus.lectures.controller.dto.Response.LecturesResDto;
 import com.hhplus.lectures.service.LecturesService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,9 +40,9 @@ public class LecturesControllerTest {
     public void postLectures() throws Exception {
         // given
         LecturesReqDto reqDto = new LecturesReqDto(1L, 1L);
-        List<LecturesManagementDto> lecturesManagementDtoList = new ArrayList<>();
-        lecturesManagementDtoList.add(new LecturesManagementDto(1L, 1L, LocalDateTime.of(2024, 6, 28, 12, 0), 0L, 30L));
-        LecturesDto lecturesDto = new LecturesDto(1L, "특강1", "이석범", lecturesManagementDtoList);
+        List<LecturesManagement> lecturesManagementDtoList = new ArrayList<>();
+        lecturesManagementDtoList.add(new LecturesManagement(1L, 1L, LocalDateTime.of(2024, 6, 28, 12, 0), 0L, 30L));
+        Lectures lecturesDto = new Lectures(1L, "특강1", "이석범", lecturesManagementDtoList);
 
         // when
         when(lecturesService.postLectures(reqDto)).thenReturn(lecturesDto);
@@ -65,16 +64,16 @@ public class LecturesControllerTest {
     @Test
     public void getLecturesTest() throws Exception {
         // given
-        List<LecturesManagementDto> lecturesManagementDtoList = new ArrayList<>();
-        lecturesManagementDtoList.add(LecturesManagementDto.builder()
-                                          .managementId(1L)
-                                          .lecturesId(1L)
-                                          .lecturesDate(LocalDateTime.of(2024, 6, 28, 12, 0))
-                                          .count(0L)
-                                          .maxCount(30L)
-                                          .build());
-        List<LecturesDto> lecturesDto = new ArrayList<>();
-        lecturesDto.add(new LecturesDto(1L, "특강1", "이석범", lecturesManagementDtoList));
+        List<LecturesManagement> lecturesManagementDtoList = new ArrayList<>();
+        lecturesManagementDtoList.add(LecturesManagement.builder()
+                                                        .managementId(1L)
+                                                        .lecturesId(1L)
+                                                        .lecturesDate(LocalDateTime.of(2024, 6, 28, 12, 0))
+                                                        .count(0L)
+                                                        .maxCount(30L)
+                                                        .build());
+        List<Lectures> lecturesDto = new ArrayList<>();
+        lecturesDto.add(new Lectures(1L, "특강1", "이석범", lecturesManagementDtoList));
 
         // when
         when(lecturesService.getLectures()).thenReturn(lecturesDto);
@@ -99,8 +98,8 @@ public class LecturesControllerTest {
     public void getLecturesCompleteStatus() throws Exception {
         // given
         Long userId = 1L;
-        List<LecturesHistoryDto> lecturesHistoryDtoList = new ArrayList<>();
-        lecturesHistoryDtoList.add(new LecturesHistoryDto(1L, 1L, userId, RegistStatus.SUCCESS, LocalDateTime.of(2024, 6, 28, 12, 0)));
+        List<LecturesHistory> lecturesHistoryDtoList = new ArrayList<>();
+        lecturesHistoryDtoList.add(new LecturesHistory(1L, 1L, userId, RegistStatus.SUCCESS, LocalDateTime.of(2024, 6, 28, 12, 0)));
 
         // when
         when(lecturesService.getLecturesCompleteStatus(userId)).thenReturn(lecturesHistoryDtoList);

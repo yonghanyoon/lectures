@@ -2,10 +2,8 @@ package com.hhplus.lectures.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.hhplus.lectures.controller.dto.LecturesDto;
-import com.hhplus.lectures.controller.dto.LecturesManagementDto;
+import com.hhplus.lectures.domain.Lectures;
 import com.hhplus.lectures.controller.dto.Request.LecturesReqDto;
-import com.hhplus.lectures.domain.entity.Lectures.LecturesHistory;
 import com.hhplus.lectures.repository.LecturesHistoryRepository;
 import com.hhplus.lectures.repository.LecturesManagementRepository;
 import com.hhplus.lectures.repository.LecturesRepository;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +31,7 @@ public class LecturesServiceTest {
     @DisplayName("선착순 특강 신청 동시성 테스트")
     @Test
     public void postLecturesTest() throws InterruptedException {
-        List<LecturesDto> lecturesDtoList = lecturesService.getLectures();
+        List<Lectures> lecturesDtoList = lecturesService.getLectures();
         int numberOfExecute = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch countDownLatch = new CountDownLatch(numberOfExecute);

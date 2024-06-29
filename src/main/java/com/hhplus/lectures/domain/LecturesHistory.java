@@ -1,4 +1,4 @@
-package com.hhplus.lectures.controller.dto;
+package com.hhplus.lectures.domain;
 
 import com.hhplus.lectures.common.type.RegistStatus;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class LecturesHistoryDto {
+public class LecturesHistory {
     private Long historyId;
     private Long managementId;
     private Long userId;

@@ -1,17 +1,13 @@
 package com.hhplus.lectures.controller;
 
-import com.hhplus.lectures.controller.dto.LecturesDto;
-import com.hhplus.lectures.controller.dto.LecturesManagementDto;
 import com.hhplus.lectures.controller.dto.Request.LecturesReqDto;
 import com.hhplus.lectures.controller.dto.Response.LecturesPostResDto;
 import com.hhplus.lectures.controller.dto.Response.LecturesResDto;
 import com.hhplus.lectures.controller.dto.Response.LecturesStatusResDto;
 import com.hhplus.lectures.service.LecturesService;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

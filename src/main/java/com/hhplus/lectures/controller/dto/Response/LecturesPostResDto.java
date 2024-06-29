@@ -1,6 +1,6 @@
 package com.hhplus.lectures.controller.dto.Response;
 
-import com.hhplus.lectures.controller.dto.LecturesDto;
+import com.hhplus.lectures.domain.Lectures;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class LecturesPostResDto {
     private Long count;
     private Long maxCount;
 
-    public LecturesPostResDto of(LecturesDto dto) {
+    public LecturesPostResDto of(Lectures dto) {
         return LecturesPostResDto.builder()
             .title(dto.getTitle())
             .instructor(dto.getInstructor())

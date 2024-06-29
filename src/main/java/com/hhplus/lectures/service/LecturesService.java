@@ -1,14 +1,10 @@
 package com.hhplus.lectures.service;
 
 import com.hhplus.lectures.common.type.RegistStatus;
-import com.hhplus.lectures.controller.dto.LecturesDto;
-import com.hhplus.lectures.controller.dto.LecturesHistoryDto;
-import com.hhplus.lectures.controller.dto.LecturesManagementDto;
+import com.hhplus.lectures.domain.Lectures;
+import com.hhplus.lectures.domain.LecturesHistory;
+import com.hhplus.lectures.domain.LecturesManagement;
 import com.hhplus.lectures.controller.dto.Request.LecturesReqDto;
-import com.hhplus.lectures.controller.dto.Response.LecturesPostResDto;
-import com.hhplus.lectures.domain.entity.Lectures.Lectures;
-import com.hhplus.lectures.domain.entity.Lectures.LecturesHistory;
-import com.hhplus.lectures.domain.entity.Lectures.LecturesManagement;
 import com.hhplus.lectures.repository.LecturesHistoryRepository;
 import com.hhplus.lectures.repository.LecturesManagementRepository;
 import com.hhplus.lectures.repository.LecturesRepository;
@@ -30,26 +26,26 @@ public class LecturesService {
 
     // 특강 신청
     @Transactional
-    public LecturesDto postLectures(LecturesReqDto reqDto) throws Exception {
+    public Lectures postLectures(LecturesReqDto reqDto) throws Exception {
         if (lecturesHistoryRepository.findByUserIdAndManagementId(
             reqDto.getUserId(), reqDto.getManagementId()).isPresent()) {
             throw new Exception("이미 신청한 특강입니다.");
         }
 
-        LecturesManagement lecturesManagement = lecturesManagementRepository.findByManagementIdWithPessimisticLock(reqDto.getManagementId());
+        com.hhplus.lectures.repository.entity.LecturesManagement lecturesManagement = lecturesManagementRepository.findByManagementIdWithPessimisticLock(reqDto.getManagementId());
         lecturesManagement.increaseEnrollCount();
-        LecturesManagementDto lecturesManagementDto = lecturesManagement.toDto();
+        LecturesManagement lecturesManagementDto = lecturesManagement.toDto();
 
         lecturesHistoryRepository.save(
-            new LecturesHistory().toEntity(new LecturesHistoryDto().builder()
-                                                                   .managementId(lecturesManagementDto.getManagementId())
-                                                                   .userId(reqDto.getUserId())
-                                                                   .status(RegistStatus.SUCCESS)
-                                                                   .createdDt(LocalDateTime.now())
-                                                                   .build()));
+            new com.hhplus.lectures.repository.entity.LecturesHistory().toEntity(new LecturesHistory().builder()
+                                                                                                      .managementId(lecturesManagementDto.getManagementId())
+                                                                                                      .userId(reqDto.getUserId())
+                                                                                                      .status(RegistStatus.SUCCESS)
+                                                                                                      .createdDt(LocalDateTime.now())
+                                                                                                      .build()));
 
-        LecturesDto lecturesDto = lecturesRepository.findByLecturesId(lecturesManagementDto.getLecturesId()).get().toDto();
-        List<LecturesManagementDto> lecturesManagementDtoList = new ArrayList<>();
+        Lectures lecturesDto = lecturesRepository.findByLecturesId(lecturesManagementDto.getLecturesId()).get().toDto();
+        List<LecturesManagement> lecturesManagementDtoList = new ArrayList<>();
         lecturesManagementDtoList.add(lecturesManagementDto);
         lecturesDto.setManagementDtoList(lecturesManagementDtoList);
 
@@ -57,18 +53,19 @@ public class LecturesService {
     }
 
     // 특강 목록
-    public List<LecturesDto> getLectures() {
-        List<LecturesDto> lecturesDtoList = lecturesRepository.findAll()
-                                                              .stream()
-                                                              .map(Lectures::toDto)
-                                                              .collect(
+    public List<Lectures> getLectures() {
+        List<Lectures> lecturesDtoList = lecturesRepository.findAll()
+                                                           .stream()
+                                                           .map(
+                                                               com.hhplus.lectures.repository.entity.Lectures::toDto)
+                                                           .collect(
                                                                   Collectors.toList());
         if (lecturesDtoList.size() != 0) {
-            for (LecturesDto lecturesDto : lecturesDtoList) {
+            for (Lectures lecturesDto : lecturesDtoList) {
                 lecturesDto.setManagementDtoList(
                     lecturesManagementRepository.findAllByLecturesIdAndLecturesDateAfter(
                         lecturesDto.getLecturesId(), LocalDateTime.now()).stream().map(
-                        LecturesManagement::toDto).collect(Collectors.toList()));
+                        com.hhplus.lectures.repository.entity.LecturesManagement::toDto).collect(Collectors.toList()));
             }
         }
 
@@ -76,9 +73,10 @@ public class LecturesService {
     }
 
     // 특강 신청 완료 여부 조회
-    public List<LecturesHistoryDto> getLecturesCompleteStatus(Long userId) throws Exception {
-        List<LecturesHistoryDto> lecturesHistoryDtoList = lecturesHistoryRepository.findAllByUserIdAndStatus(
-            userId, RegistStatus.SUCCESS).stream().map(LecturesHistory::toDto).collect(
+    public List<LecturesHistory> getLecturesCompleteStatus(Long userId) throws Exception {
+        List<LecturesHistory> lecturesHistoryDtoList = lecturesHistoryRepository.findAllByUserIdAndStatus(
+            userId, RegistStatus.SUCCESS).stream().map(
+            com.hhplus.lectures.repository.entity.LecturesHistory::toDto).collect(
             Collectors.toList());
         
         if (lecturesHistoryDtoList.size() == 0) {

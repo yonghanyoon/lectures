@@ -1,8 +1,7 @@
 package com.hhplus.lectures.controller.dto.Response;
 
-import com.hhplus.lectures.controller.dto.LecturesDto;
-import com.hhplus.lectures.controller.dto.LecturesManagementDto;
-import java.time.LocalDateTime;
+import com.hhplus.lectures.domain.Lectures;
+import com.hhplus.lectures.domain.LecturesManagement;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -16,14 +15,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LecturesResDto {
     private Long lecturesId;
-    private LecturesManagementDto management;
+    private LecturesManagement management;
     private String title;
     private String instructor;
 
-    public List<LecturesResDto> of(List<LecturesDto> dto) {
+    public List<LecturesResDto> of(List<Lectures> dto) {
         List<LecturesResDto> lecturesResDtoList = new ArrayList<>();
-        for (LecturesDto lecturesDto : dto) {
-            for (LecturesManagementDto lecturesManagementDto : lecturesDto.getManagementDtoList()) {
+        for (Lectures lecturesDto : dto) {
+            for (LecturesManagement lecturesManagementDto : lecturesDto.getManagementDtoList()) {
                 lecturesResDtoList.add(LecturesResDto.builder()
                                                      .lecturesId(lecturesDto.getLecturesId())
                                                      .management(lecturesManagementDto)

@@ -1,7 +1,7 @@
 package com.hhplus.lectures.repository;
 
 
-import com.hhplus.lectures.domain.entity.Lectures.LecturesManagement;
+import com.hhplus.lectures.repository.entity.LecturesManagement;
 import jakarta.persistence.LockModeType;
 import java.time.LocalDateTime;
 import java.util.List;

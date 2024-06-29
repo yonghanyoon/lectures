@@ -1,7 +1,6 @@
-package com.hhplus.lectures.controller.dto;
+package com.hhplus.lectures.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class LecturesDto {
+public class LecturesManagement {
+    private Long managementId;
     private Long lecturesId;
-    private String title;
-    private String instructor;
-    private List<LecturesManagementDto> managementDtoList;
+    private LocalDateTime lecturesDate;
+    private Long count;
+    private Long maxCount;
 }
+
